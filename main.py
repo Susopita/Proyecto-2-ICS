@@ -20,7 +20,12 @@ for i in range(10):
     print(f"{i} - imagen promedio")
 print("-1 - todas las imágenes promedio")
 
-opc = input(": ")
+while True:
+    opc = input(": ")
+    if opc in ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-1"):
+        break
+    else:
+        print("Opción inválida")
 
 if opc == "-1":
     fig, axs = plt.subplots(2, 5, figsize=(15, 5))
@@ -41,12 +46,17 @@ if not os.path.exists("images"):
 fotos = os.listdir("images")
 
 print("Mencione la imagen que desea utilizar...")
-for i in fotos:
-    print(f" - {i}")
+for i, foto in enumerate(fotos, start=1):
+    print(f" {i}) {foto[:-4]}")
 
-opc = input(": ")
+while True:
+    opc = input(": ")
+    if opc in [f"{i}" for i in range(1, len(fotos) + 1)]:
+        break
+    else:
+        print("Opción inválida")
 
-imagen = Image.open(f"./images/{opc}")
+imagen = Image.open(f"./images/{fotos[int(opc)-1]}")
 
 # Escalamos la imagen a 8x8
 imagen = imagen.resize((8,8), Image.LANCZOS)
@@ -74,3 +84,20 @@ target_cercanos = cercanos_digits['target'].value_counts()
 for target, i in target_cercanos.items():
     if i >= 2:
         print(f"Soy la inteligencia artificial, y he detectado que el dígito ingresado corresponde al número {target}")
+
+mean_digits['dist'] = mean_digits.apply(lambda x: distancia(np.array(x), imagen.flatten()), axis=1)
+
+mean_cercanos_digits = mean_digits.sort_values(by="dist")
+
+number_predicted = mean_cercanos_digits.head(1).index[0]
+print(f"Soy  la  inteligencia  artificial  versión  2,  y  he detectado  que  el  dígito  ingresado  corresponde  al  número  {number_predicted}")
+
+"""
+h) Indique cuál de los dos métodos cree usted que es mejor, el de la versión 1  o el de la versión 2.
+
+El método de la versión 2 es mejor, ya que se basa en la distancia entre la imagen ingresada y las imágenes promedio de cada dígito, lo que permite una mejor clasificación de la imagen ingresada. Ademas, ya que cada numero es representaod con un promedio, se puede decir que el metodo de la version 2 es mas eficiente y rapido.
+
+Pese a que la version 1, es efectiva en su trabajo, el calculo continuo con cada imagen de los digitos, lo hace mas lento y menos eficiente.
+
+Una observacion adicional, es que la version 2 esta adaptada a si o si predecir un numero que conozca, mientras que la version 1, puede predecir un numero que no conozca, ya que se basa en vecinos cercanos.
+"""
