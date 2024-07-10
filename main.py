@@ -53,7 +53,7 @@ imagen = imagen.resize((8,8), Image.LANCZOS)
 
 # Escalamos los valores de la imagen a un rango de 0 a 16
 imagen = imagen.convert("L")
-imagen = imagen.point(lambda x: x * (16 / 255))
+imagen = imagen.point(lambda x: (255 - x) * (16 / 255))
 imagen = np.array(imagen)
 
 # Funcion de distancia
@@ -74,6 +74,3 @@ target_cercanos = cercanos_digits['target'].value_counts()
 for target, i in target_cercanos.items():
     if i >= 2:
         print(f"Soy la inteligencia artificial, y he detectado que el dígito ingresado corresponde al número {target}")
-
-plt.imshow(digits.images[cercanos_digits.index[0]], cmap='viridis')
-plt.show()
