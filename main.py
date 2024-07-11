@@ -76,7 +76,7 @@ df_digits['dist'] = df_digits.drop(columns="target").apply(lambda x: distancia(n
 df_digits_sorted = df_digits.sort_values(by="dist")
 
 # Mostramos los 3 digitos más cercanos
-cercanos_digits = df_digits_sorted.head(3)
+cercanos_digits = df_digits_sorted.head(5)
 print(cercanos_digits[['target', 'dist']])
 
 # Mostramos el número que la IA ha detectado
@@ -84,7 +84,7 @@ target_cercanos = cercanos_digits['target'].value_counts()
 
 identifico = False
 for target, i in target_cercanos.items():
-    if i >= 2:
+    if i >= 3:
         print(f"Soy la inteligencia artificial, y he detectado que el dígito ingresado corresponde al número {target}")
         identifico = True
 
