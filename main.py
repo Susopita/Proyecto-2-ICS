@@ -81,9 +81,15 @@ print(cercanos_digits[['target', 'dist']])
 
 # Mostramos el número que la IA ha detectado
 target_cercanos = cercanos_digits['target'].value_counts()
+
+identifico = False
 for target, i in target_cercanos.items():
     if i >= 2:
         print(f"Soy la inteligencia artificial, y he detectado que el dígito ingresado corresponde al número {target}")
+        identifico = True
+
+if identifico == False:
+    print("Soy la inteligencia artificial, y no he podido identificar correctamente el número ingresado")
 
 mean_digits['dist'] = mean_digits.apply(lambda x: distancia(np.array(x), imagen.flatten()), axis=1)
 
@@ -95,9 +101,11 @@ print(f"Soy  la  inteligencia  artificial  versión  2,  y  he detectado  que  e
 """
 h) Indique cuál de los dos métodos cree usted que es mejor, el de la versión 1  o el de la versión 2.
 
-El método de la versión 2 es mejor, ya que se basa en la distancia entre la imagen ingresada y las imágenes promedio de cada dígito, lo que permite una mejor clasificación de la imagen ingresada. Ademas, ya que cada numero es representaod con un promedio, se puede decir que el metodo de la version 2 es mas eficiente y rapido.
+El método de la versión 2 es mejor, ya que se basa en la distancia entre la imagen ingresada y todas las imagenes de los dígitos, lo que permite una mejor clasificación de la imagen ingresada al tener mayores casos de prueba. Por otro lado, la versión 1 se basa en la imagen promedio de cada dígito, lo que puede no ser tan efectivo si la imagen ingresada tiene variaciones en la forma del dígito.
 
-Pese a que la version 1, es efectiva en su trabajo, el calculo continuo con cada imagen de los digitos, lo hace mas lento y menos eficiente.
+Pese a que la version 2, es efectiva en su trabajo, las ligeras variaciones en la imagen como  algun tipo de ruido puede afectar al resultado final.
 
-Una observacion adicional, es que la version 2 esta adaptada a si o si predecir un numero que conozca, mientras que la version 1, puede predecir un numero que no conozca, ya que se basa en vecinos cercanos.
+Una observacion adicional, es que la version 2 esta adaptada a si o si predecir un numero que conozca, mientras que la version 1, puede predecir un numero que no conozca, ya que se basa en vecinos cercano y si tiene 3 vecinos distintos, puede retornar que no se identifica correctamente el numero.
+
+Otra obseración, aparentemente la version 2 es efectiva en los casos que el numero tiene un grosor normal que sea distingible, pero si el numero es muy delgado o muy grueso, puede que no se identifique correctamente el numero. Lo que no pasa con la version 1, al tener varios casos de prueba y distintas forma de clasificar el numero.
 """
